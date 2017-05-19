@@ -1,0 +1,6 @@
+framework module PPDanmuSDK {
+  umbrella header "PPDanmuSDK.h"
+
+  export *
+  module * { export * }
+}
