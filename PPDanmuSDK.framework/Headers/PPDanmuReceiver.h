@@ -25,7 +25,7 @@ typedef NS_ENUM(NSUInteger, PPReceiverState) {
     PPReceiverStateStateStopped,
 };
 
-@class PPDanmuReceiver,PPMessage,DanmuList;
+@class PPDanmuReceiver,DanmuMessageList;
 @protocol PPDanmuReceiverDelegate <NSObject>
 @optional
 /**
@@ -35,7 +35,7 @@ typedef NS_ENUM(NSUInteger, PPReceiverState) {
 /**
  *    收到消息回调
  */
-- (void)receiver:(nonnull PPDanmuReceiver *)receiver receiveDanmu:(nonnull DanmuList *)danmu;
+- (void)receiver:(nonnull PPDanmuReceiver *)receiver receiveDanmu:(nonnull DanmuMessageList *)danmu;
 /**
  *   连接断开回调
  */

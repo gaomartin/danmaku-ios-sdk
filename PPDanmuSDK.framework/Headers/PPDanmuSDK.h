@@ -12,14 +12,16 @@
 #import <PPDanmuSDK/PPYError.h>
 #import <PPDanmuSDK/DanmuAddBean.h>
 #import <PPDanmuSDK/PPDanmuReceiver.h>
-#import <PPDanmuSDK/PPDanmuPublisher.h>
-#import <PPDanmuSDK/PPMessage.h>
-#import <PPDanmuSDK/DanmuList.h>
+#import <PPDanmuSDK/PPDanmuManager.h>
+#import <PPDanmuSDK/DanmuBean.h>
+#import <PPDanmuSDK/DanmuListBean.h>
+#import <PPDanmuSDK/DanmuMessageList.h>
 #else
 #import "PPYError.h"
 #import "DanmuAddBean.h"
 #import "PPDanmuReceiver.h"
-#import "PPDanmuPublisher.h"
-#import "PPMessage.h"
-#import "DanmuList.h"
+#import "PPDanmuManager.h"
+#import "DanmuBean.h"
+#import "DanmuListBean.h"
+#import "DanmuMessageList.h"
 #endif
