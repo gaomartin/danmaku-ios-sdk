@@ -3,7 +3,7 @@
 -  [收弹幕]：通过长连接接收实时弹幕
 -  [发弹幕]：通过短连接发送弹幕
 
-##二. 运行环境
+## 二. 运行环境
 最低支持版本为IOS8.0
 
 支持的CPU架构：armv7,armv7s,arm64
@@ -14,42 +14,43 @@
 
 引入头文件： #import \<PPDanmuSDK/PPDanmuSDK.h>
 
-##接口说明：
-###1. PPDanmuPublisher 发送弹幕
+## 接口说明：
+### 1. PPDanmuManager 发送弹幕
 初始化
 ```objc
-PPDanmuManager *danmu = [[PPDanmuManager alloc] initWithToken:token
-                                                userName:name
-                                                platform:@"pplive"];
+PPDanmuManager *danmu = [[PPDanmuManager alloc] initWithToken:TestToken
+                                                     userName:TestUserName
+                                                     platform:@"pplive"];
                                                 
 //创建弹幕对象
 
   DanmuAddBean *bean = [[DanmuAddBean alloc] initWithChannelId:channelID
-                                                         content:message
-                                                       playPoint:120
-                                                       fontColor:@"#11FFFF"
-                                                        fontName:@"字体名称"
-                                                        fontSize:PPDanmuFontSizeBig
-                                                    fontPosition:PPDanmuFontPositionTopCenter
-                  motion:PPDanmuFontMotionNatant];
+                                                       content:message
+                                                     playPoint:120
+                                                     fontColor:@"#11FFFF"
+                                                      fontName:@"字体名称"
+                                                      fontSize:PPDanmuFontSizeBig
+                                                  fontPosition:PPDanmuFontPositionTopCenter 
+                                                        motion:PPDanmuFontMotionNatant];
     [danmu publishDanmu:bean
-                  completion:^(PPYError * _Nullable error) {
+             completion:^(PPYError * _Nullable error) {
                       if (error == nil) {
                           NSLog(@"发表成功");
                       } else {
                           NSLog(@"发布失败:%@",error.message);
                       }
                   }];
+```
 
-
-###2. PPDanmuReceiver 接受弹幕
+### 2. PPDanmuReceiver 接受弹幕
 初始化
+```objc
 PPDanmuReceiver *receiver = [[PPDanmuReceiver alloc] initWithAppID:@"xxxxxx"
-                                                    appKey:@"xxxxxxxxx"];
+                                                            appKey:@"xxxxxxxxx"];
 receiver.delegate = self;
-    [receiver addTag:@"danmu/live_300403"]; //添加需要接受弹幕的tag
-    [receiver addTag:@"danmu/vod_25992089"];
-    [receiver start]; //开始连接，接受弹幕
+[receiver addTag:@"danmu/live_300403"]; //添加需要接受弹幕的tag
+[receiver addTag:@"danmu/vod_25992089"];
+[receiver start]; //开始连接，接受弹幕
     
 
 接受弹幕回调
@@ -65,18 +66,22 @@ receiver.delegate = self;
  *   连接断开回调
  */
 - (void)receiverDidLostConnection:(nonnull PPDanmuReceiver *)receiver;
-###3.获取视频弹幕列表
+```
+
+### 3.获取视频弹幕列表
 初始化
+```objc
 PPDanmuManager *danmu = [[PPDanmuManager alloc] initWithToken:token
-                                                userName:name
-                                                platform:@"pplive"];
+                                                     userName:name
+                                                     platform:@"pplive"];
  [danmu getDanmuListWithChannelID:self.channelID
-                                        position:lastEndPos
-                                      completion:^(DanmuListBean * _Nullable list, PPYError * _Nullable error) {
+                         position:lastEndPos
+                       completion:^(DanmuListBean * _Nullable list, PPYError * _Nullable error) {
                                           if (list) {
                                              //list.infos  弹幕列表  
                                           }
                                       }];
+```
 关于position的说明，第一次请求直播弹幕，传入参数 position =视频播放的自然时间(当前视频播放进度返回,0就表示从头开始)。后台返回（自然时间-10s）到（自然时间）的弹幕，并告诉end和ts=10s。 
 前端根据上一次请求的时间，在ts之后做第二次请求，传入position={end}。sdk返回（position）到(position+10s)的弹幕，并告诉新的end和ts
 position 的单位为 0.1秒
