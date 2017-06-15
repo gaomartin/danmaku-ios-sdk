@@ -68,16 +68,16 @@ typedef NS_ENUM(NSUInteger, PPReceiverState) {
 /**
  *  添加监听的Tag
  *
- *  @param tag               tag
+ *  @param channelId 视频的channelID
  */
-- (void)addTag:(nonnull NSString *)tag;
+- (void)addTagWithChannelId:(nonnull NSString *)channelId isLive:(BOOL)isLive;
 
 /**
  *  移除Tag
  *
- *  @param tag tag
+ *  @param channelId 视频的channelID
  */
-- (void)removeTag:(nonnull NSString *)tag;
+- (void)removeTagWithChannelId:(nonnull NSString *)channelId isLive:(BOOL)isLive;
 
 /**
  *  移除所有已添加的tag

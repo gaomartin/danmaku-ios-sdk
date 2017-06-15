@@ -6,7 +6,7 @@
 ## 二. 运行环境
 最低支持版本为IOS8.0
 
-支持的CPU架构：armv7,armv7s,arm64
+支持的CPU架构：armv7,arm64
 ## 三. 快速集成
 
 配置工程文件：
@@ -17,6 +17,7 @@
 ## 接口说明：
 ### 1. PPDanmuManager 发送弹幕
 初始化
+
 ```objc
 PPDanmuManager *danmu = [[PPDanmuManager alloc] initWithToken:TestToken
                                                      userName:TestUserName
@@ -44,6 +45,7 @@ PPDanmuManager *danmu = [[PPDanmuManager alloc] initWithToken:TestToken
 
 ### 2. PPDanmuReceiver 接受弹幕
 初始化
+
 ```objc
 PPDanmuReceiver *receiver = [[PPDanmuReceiver alloc] initWithAppID:@"xxxxxx"
                                                             appKey:@"xxxxxxxxx"];
@@ -70,6 +72,7 @@ receiver.delegate = self;
 
 ### 3.获取视频弹幕列表
 初始化
+
 ```objc
 PPDanmuManager *danmu = [[PPDanmuManager alloc] initWithToken:token
                                                      userName:name
@@ -85,3 +88,34 @@ PPDanmuManager *danmu = [[PPDanmuManager alloc] initWithToken:token
 关于position的说明，第一次请求直播弹幕，传入参数 position =视频播放的自然时间(当前视频播放进度返回,0就表示从头开始)。后台返回（自然时间-10s）到（自然时间）的弹幕，并告诉end和ts=10s。 
 前端根据上一次请求的时间，在ts之后做第二次请求，传入position={end}。sdk返回（position）到(position+10s)的弹幕，并告诉新的end和ts
 position 的单位为 0.1秒
+
+### 4.设置弹幕视图
+```objc
+//设置弹幕需要显示的视图
+[danmuManager setRendererView:self.videoView];
+
+//准备开始接受弹幕
+[danmuManager startDanmu];
+
+//接受弹幕并显示出来
+[danmuManager rendererDanmu:danmu];
+
+//暂停弹幕
+[danmuManager startDanmu];
+
+//停止弹幕
+[danmuManager startDanmu];
+
+
+//如果是点播弹幕，先拉取弹幕列表，然后显示弹幕
+
+//点播弹幕需要实现代理方法，sdk会自动根据播放时间不断显示对应的弹幕
+danmuManager.rendererDelegate = self;
+
+//返回当前播放器的播放时间(秒)
+- (NSTimeInterval)currentPlayTimeForManager:(PPDanmuManager *)manager {
+    return self.playTime / 10;
+}
+//弹幕显示模式，可以设置显示全屏，半屏
+@property (nonatomic, assign) PPDanmuDisplayMode displayMode;
+```
